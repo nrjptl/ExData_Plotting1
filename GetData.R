@@ -5,17 +5,18 @@ if(!file.exists("household_power_consumption.txt")){
         unzip("ElectricalPower.zip")
 }
 
+library(data.table)
+
+if(!"data.table" %in% loadedNamespaces()){
+    install.packages("data.table")
+}
+
 # Reading the data from txt file. Using fread for faster operation.
 data <- fread("household_power_consumption.txt")
 data<-as.data.frame(data)
 
-# converting Date column into POSIXlt form for date comparision.
-data[["Date"]] <- as.POSIXlt(as.Date(data$Date, "%d/%m/%Y"))
-start <- as.POSIXlt(as.Date("2007-02-01","%Y-%m-%d"))
-end <- as.POSIXlt(as.Date("2007-02-02","%Y-%m-%d"))
-
 # getting the data in which we have interest on.
-interest <- data[data$Date == start | data$Date == end,]
+interest <- data[data$Date == "1/2/2007" | data$Date == "2/2/2007",]
 
-# Removing variables as it is unused now.
-rm(data,start,end)
+# Removing variable as it is unused now.
+rm(data)
